@@ -8,5 +8,9 @@ export default function CurrentWeather() {
     queryFn: () => getWeahter({ lat: 50, lon: 10 }),
   });
 
-  return <Card title="Current Weather">Current Weather</Card>;
+  return (
+    <Card title="Current Weather" childrenClassName="flex flex-col">
+      <div className="">{Math.round(data.current.temp)}°F</div>
+    </Card>
+  );
 }
