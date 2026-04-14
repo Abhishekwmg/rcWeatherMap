@@ -14,9 +14,13 @@ function App() {
     lon: 2,
   });
 
+  const onMapClick = (lat: number, lon: number) => {
+    setCoords({ lat, lon });
+  };
+
   return (
     <div className="flex flex-col gap-8">
-      <Map coords={coords} />
+      <Map onMapClick={onMapClick} coords={coords} />
       <CurrentWeather coords={coords} />
       <HourlyForecast coords={coords} />
       <DailyForecast coords={coords} />
