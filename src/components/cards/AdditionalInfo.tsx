@@ -9,11 +9,16 @@ import Sunset from "../../../src/assets/sunset.svg?react";
 import UV from "../../../src/assets/uv.svg?react";
 import Wind from "../../../src/assets/wind.svg?react";
 import UpArrow from "../../../src/assets/arrow-up.svg?react";
+import type { Coords } from "../../types";
 
-export default function AdditionalInfo() {
+type Props = {
+  coords: Coords;
+};
+
+export default function AdditionalInfo({ coords }: Props) {
   const { data } = useSuspenseQuery({
     queryKey: ["weather"],
-    queryFn: () => getWeahter({ lat: 28, lon: 77 }),
+    queryFn: () => getWeahter({ lat: coords.lan, lon: coords.lon }),
   });
 
   return (
