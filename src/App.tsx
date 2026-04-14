@@ -18,6 +18,8 @@ function App() {
     setCoords({ lat, lon });
   };
 
+  console.log(coords);
+
   return (
     <div className="flex flex-col gap-8">
       <Map onMapClick={onMapClick} coords={coords} />

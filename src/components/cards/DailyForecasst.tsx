@@ -9,8 +9,8 @@ type Props = {
 
 export default function DailyForecast({ coords }: Props) {
   const { data } = useSuspenseQuery({
-    queryKey: ["weather"],
-    queryFn: () => getWeahter({ lat: coords.lan, lon: coords.lon }),
+    queryKey: ["weather", coords],
+    queryFn: () => getWeahter({ lat: coords.lat, lon: coords.lon }),
   });
 
   return (
