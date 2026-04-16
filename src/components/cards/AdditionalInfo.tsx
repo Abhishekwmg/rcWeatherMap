@@ -21,8 +21,6 @@ export default function AdditionalInfo({ coords }: Props) {
     queryFn: () => getWeahter({ lat: coords.lat, lon: coords.lon }),
   });
 
-  console.log(data);
-
   return (
     <Card
       title="Additional Weather Info"
