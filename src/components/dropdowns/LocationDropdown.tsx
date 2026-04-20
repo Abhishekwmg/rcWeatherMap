@@ -6,12 +6,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { Dispatch, SetStateAction } from "react";
 
-type Props = {};
+type Props = {
+  location: string;
+  setLocation: Dispatch<SetStateAction<string>>;
+};
 
-export default function LocationDropdown({}: Props) {
+export default function LocationDropdown({ location, setLocation }: Props) {
   return (
-    <Select>
+    <Select value={location} onValueChange={(value) => setLocation(value)}>
       <SelectTrigger className="w-45">
         <SelectValue placeholder="Select City" />
       </SelectTrigger>
