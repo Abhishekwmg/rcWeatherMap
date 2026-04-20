@@ -1,6 +1,5 @@
 import { WeatherSchema } from "./schemas/weatherSchema";
 import { GeocodeSchema } from "./schemas/geocodeSchema";
-
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export async function getWeahter({ lat, lon }: { lat: number; lon: number }) {
@@ -11,7 +10,7 @@ export async function getWeahter({ lat, lon }: { lat: number; lon: number }) {
   return WeatherSchema.parse(data);
 }
 
-export async function getGeocode({ location: string }) {
+export async function getGeocode(location: string) {
   const res = await fetch(
     `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY}`,
   );

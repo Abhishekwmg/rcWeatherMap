@@ -12,7 +12,7 @@ type Props = {};
 export default function LocationDropdown({}: Props) {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-45">
         <SelectValue placeholder="Select City" />
       </SelectTrigger>
       <SelectContent className="z-1001">
