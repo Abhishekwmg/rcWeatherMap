@@ -23,7 +23,7 @@ export default function MapTypeDropdown({ mapType, setMapType }: Props) {
         <SelectGroup>
           {types.map((type) => (
             <SelectItem key={type} value={type} className="capitalize">
-              {type}
+              {type.split("_")[0]}
             </SelectItem>
           ))}
         </SelectGroup>
