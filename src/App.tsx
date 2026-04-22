@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getGeocode } from "./api";
 import MapTypeDropdown from "./components/dropdowns/mapTypeDropdown";
 import MapLegend from "./components/MapLegends";
+import CurrentSkeleton from "./components/skeletons/CurrentSkeleton";
+import { Suspense } from "react";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({
@@ -51,10 +53,18 @@ function App() {
         <Map onMapClick={onMapClick} coords={coords} mapType={mapType} />
         <MapLegend mapType={mapType} />
       </div>
-      <CurrentWeather coords={coords} />
-      <HourlyForecast coords={coords} />
-      <DailyForecast coords={coords} />
-      <AdditionalInfo coords={coords} />
+      <Suspense fallback={<CurrentSkeleton />}>
+        <CurrentWeather coords={coords} />
+      </Suspense>
+      <Suspense fallback={<CurrentSkeleton />}>
+        <HourlyForecast coords={coords} />
+      </Suspense>
+      <Suspense fallback={<CurrentSkeleton />}>
+        <DailyForecast coords={coords} />
+      </Suspense>
+      <Suspense fallback={<CurrentSkeleton />}>
+        <AdditionalInfo coords={coords} />
+      </Suspense>
     </div>
   );
 }
