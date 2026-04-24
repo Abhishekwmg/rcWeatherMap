@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import Info from "../assets/info.svg?react";
 import Chevron from "../assets/chevron-left.svg?react";
+import SidePanelSkeleton from "./skeletons/SidePanelSkeleton";
 
 type Props = {
   coords: Coords;
@@ -32,7 +33,7 @@ export default function SidePanel(props: Props) {
       <button className="" onClick={() => setIsSidePanelOpen(false)}>
         <Chevron className="size-8 invert -ml-2" />
       </button>
-      <Suspense>
+      <Suspense fallback={<SidePanelSkeleton />}>
         <AirPollution {...props} />
       </Suspense>
     </div>
