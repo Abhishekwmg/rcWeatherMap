@@ -12,6 +12,12 @@ import MapTypeDropdown from "./components/dropdowns/mapTypeDropdown";
 import MapLegend from "./components/MapLegends";
 import CurrentSkeleton from "./components/skeletons/CurrentSkeleton";
 import { Suspense } from "react";
+import DailySkeleton from "./components/skeletons/DailySkeleton";
+import HourlySkeleton from "./components/skeletons/HourlySkeleton";
+import AdditionalInfoSkeleton from "./components/skeletons/AdditionalInfoSkeleton";
+import SidePanel from "./components/SidePanel";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Menu from "../src/assets/menu.svg?react";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({
@@ -21,6 +27,8 @@ function App() {
 
   const [location, setLocation] = useState("Tokyo");
   const [mapType, setMapType] = useState("clouds_new");
+
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
   const { data: geocodeData } = useQuery({
     queryKey: ["geocode", location],
@@ -38,34 +46,44 @@ function App() {
       : { lat: geocodeData?.[0].lat ?? 0, lon: geocodeData?.[0].lon ?? 0 };
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex gap-8">
-        <div className="flex gap-4">
-          <h1 className="text-2xl font-semibold">Location:</h1>
-          <LocationDropdown location={location} setLocation={setLocation} />
+    <TooltipProvider>
+      <div className="flex flex-col gap-8">
+        <div className="flex gap-8">
+          <div className="flex gap-4">
+            <h1 className="text-2xl font-semibold">Location:</h1>
+            <LocationDropdown location={location} setLocation={setLocation} />
+          </div>
+          <div className="flex gap-4">
+            <h1 className="text-2xl font-semibold">Map Type</h1>
+            <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
+          </div>
+          <button className="" onClick={() => setIsSidePanelOpen(true)}>
+            <Menu className="size-8 invert ml-8" />
+          </button>
         </div>
-        <div className="flex gap-4">
-          <h1 className="text-2xl font-semibold">Map Type</h1>
-          <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
+        <div className="relative">
+          <Map onMapClick={onMapClick} coords={coords} mapType={mapType} />
+          <MapLegend mapType={mapType} />
         </div>
+        <Suspense fallback={<CurrentSkeleton />}>
+          <CurrentWeather coords={coords} />
+        </Suspense>
+        <Suspense fallback={<HourlySkeleton />}>
+          <HourlyForecast coords={coords} />
+        </Suspense>
+        <Suspense fallback={<DailySkeleton />}>
+          <DailyForecast coords={coords} />
+        </Suspense>
+        <Suspense fallback={<AdditionalInfoSkeleton />}>
+          <AdditionalInfo coords={coords} />
+        </Suspense>
       </div>
-      <div className="relative">
-        <Map onMapClick={onMapClick} coords={coords} mapType={mapType} />
-        <MapLegend mapType={mapType} />
-      </div>
-      <Suspense fallback={<CurrentSkeleton />}>
-        <CurrentWeather coords={coords} />
-      </Suspense>
-      <Suspense fallback={<CurrentSkeleton />}>
-        <HourlyForecast coords={coords} />
-      </Suspense>
-      <Suspense fallback={<CurrentSkeleton />}>
-        <DailyForecast coords={coords} />
-      </Suspense>
-      <Suspense fallback={<CurrentSkeleton />}>
-        <AdditionalInfo coords={coords} />
-      </Suspense>
-    </div>
+      <SidePanel
+        coords={coords}
+        isSidePanelOpen={isSidePanelOpen}
+        setIsSidePanelOpen={setIsSidePanelOpen}
+      />
+    </TooltipProvider>
   );
 }
 
