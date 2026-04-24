@@ -17,6 +17,7 @@ export default function CurrentWeather({ coords }: Props) {
   return (
     <Card
       title="Current Weather"
+      className="md:pb-18"
       childrenClassName="flex flex-col items-center gap-4"
     >
       <div className="flex flex-col gap-2 items-center">
