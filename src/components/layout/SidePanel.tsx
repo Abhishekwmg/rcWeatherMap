@@ -40,7 +40,7 @@ export default function SidePanel(props: Props) {
   );
 }
 
-function AirPollution({ coords }) {
+function AirPollution({ coords }: { coords: Coords }) {
   const { data } = useSuspenseQuery({
     queryKey: ["pollution", coords],
     queryFn: () => getAirPollution(coords),
@@ -64,9 +64,11 @@ function AirPollution({ coords }) {
           </TooltipContent>
         </Tooltip>
       </div>
-      {Object.entries(data.list[0].components).map(([key, value]) => {
+      {Object.entries(data.list[0].components).map(([pollutantKey, value]) => {
         const pollutant =
-          airQualityRanges[key.toUpperCase() as keyof typeof airQualityRanges];
+          airQualityRanges[
+            pollutantKey.toUpperCase() as keyof typeof airQualityRanges
+          ];
         const max = Math.max(pollutant["Very Poor"].min, value);
         const currentLevel = (() => {
           for (const [level, range] of Object.entries(pollutant)) {
@@ -100,13 +102,13 @@ function AirPollution({ coords }) {
         })();
         return (
           <Card
-            key={key}
+            key={pollutantKey}
             className="hover:scale-103 cursor-pointer transition-transform duration-300 from-sidebar-accent to-sidebar-accent/60 gap-0!"
           >
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-lg font-bold capitalize">
-                  {key}
+                  {pollutantKey}
                   <Tooltip>
                     <TooltipTrigger>
                       <Info className="size-4" />
@@ -116,8 +118,8 @@ function AirPollution({ coords }) {
                         Concentration of{" "}
                         {
                           pollutantNameMapping[
-                            key.toUpperCase()
-                          ] as keyof typeof pollutantNameMapping
+                            pollutantKey.toUpperCase() as Pollutant
+                          ]
                         }
                       </p>
                     </TooltipContent>
@@ -242,4 +244,6 @@ const pollutantNameMapping: Record<Pollutant, string> = {
   PM2_5: "Particulate Matter 2.5 (PM2.5)",
   O3: "Ozone (O₃)",
   CO: "Carbon Monoxide (CO)",
+  NO: "Nitric Oxide",
+  NH3: "Ammonia",
 };

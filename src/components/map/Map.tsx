@@ -1,9 +1,20 @@
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import type { Coords } from "../types";
+import type { Coords } from "../../types";
 import { useEffect } from "react";
 import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
 import { useTheme } from "@/context/ThemeProvider";
+import L from "leaflet";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+});
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const MAPTILER_API_KEY = import.meta.env.VITE_MAPTILER_API_KEY;
@@ -60,7 +71,7 @@ function MapClick({
   return null;
 }
 
-function MapTileLayer({ theme }) {
+function MapTileLayer({ theme }: { theme: string }) {
   const map = useMap();
 
   useEffect(() => {
@@ -70,7 +81,9 @@ function MapTileLayer({ theme }) {
     });
     tileLayer.addTo(map);
 
-    return () => map.removeLayer(tileLayer);
+    return () => {
+      map.removeLayer(tileLayer);
+    };
   }, [map, theme]);
 
   return null;
