@@ -6,7 +6,7 @@ import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
 import { useTheme } from "@/context/ThemeProvider";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
-
+const MAPTILER_API_KEY = import.meta.env.VITE_MAPTILER_API_KEY;
 type Props = {
   coords: Coords;
   onMapClick: (lat: number, lon: number) => void;
@@ -66,7 +66,7 @@ function MapTileLayer({ theme }) {
   useEffect(() => {
     const tileLayer = new MaptilerLayer({
       style: theme === "dark" ? "basic-dark" : "openstreetmap",
-      apiKey: "fESlmIgSt0hGC1Qv7ZLO",
+      apiKey: MAPTILER_API_KEY,
     });
     tileLayer.addTo(map);
 
