@@ -1,6 +1,6 @@
 import Card from "./Cards";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getWeahter } from "../../api";
+import { getWeahter } from "../../services/api";
 
 import Cloudiness from "../../../src/assets/cloudiness.svg?react";
 import Pressure from "../../../src/assets/pressure.svg?react";

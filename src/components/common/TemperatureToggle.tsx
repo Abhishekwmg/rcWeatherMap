@@ -1,7 +1,7 @@
-import Celcius from "../assets/celsius.svg?react";
-import Fahrenheit from "../assets/fahrenheit.svg?react";
-import { Switch } from "./ui/switch";
-import { useTemperatureUnit } from "./TemperatureUnitContext";
+import Celcius from "../../assets/celsius.svg?react";
+import Fahrenheit from "../../assets/fahrenheit.svg?react";
+import { Switch } from "../ui/switch";
+import { useTemperatureUnit } from "../../context/TemperatureUnitContext";
 
 export default function TemperatureToggle() {
   const { unit, toggleUnit } = useTemperatureUnit();

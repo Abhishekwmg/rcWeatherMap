@@ -1,7 +1,7 @@
-import { Switch } from "./ui/switch";
-import Sun from "../assets/sun.svg?react";
-import Moon from "../assets/moon.svg?react";
-import { useTheme } from "./ThemeProvider";
+import { Switch } from "../ui/switch";
+import Sun from "../../assets/sun.svg?react";
+import Moon from "../../assets/moon.svg?react";
+import { useTheme } from "../../context/ThemeProvider";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();

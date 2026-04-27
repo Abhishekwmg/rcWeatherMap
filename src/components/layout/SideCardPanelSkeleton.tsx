@@ -1,4 +1,4 @@
-import Card from "../cards/Cards";
+import Card from "../weather/Cards";
 import { Skeleton } from "../ui/skeleton";
 
 export default function SideCardPanelSkeleton() {

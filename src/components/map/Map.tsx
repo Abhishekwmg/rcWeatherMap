@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import type { Coords } from "../types";
 import { useEffect } from "react";
 import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
+import { useTheme } from "@/context/ThemeProvider";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -14,6 +15,7 @@ type Props = {
 
 export default function Map({ coords, onMapClick, mapType }: Props) {
   const { lat, lon } = coords;
+  const { theme } = useTheme();
 
   return (
     <MapContainer
@@ -24,13 +26,12 @@ export default function Map({ coords, onMapClick, mapType }: Props) {
       style={{ width: "100%", height: "100%" }}
     >
       <MapClick onMapClick={onMapClick} coords={coords} />
-      <MapTileLayer />
+      <MapTileLayer theme={theme} />
       {/* <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       /> */}
       <TileLayer
-        opacity={0.5}
         url={`https://tile.openweathermap.org/map/${mapType}/{z}/{x}/{y}.png?appid=${API_KEY}`}
       />
       <Marker position={[lat, lon]}>
@@ -59,18 +60,18 @@ function MapClick({
   return null;
 }
 
-function MapTileLayer() {
+function MapTileLayer({ theme }) {
   const map = useMap();
 
   useEffect(() => {
     const tileLayer = new MaptilerLayer({
-      style: "basic-dark",
+      style: theme === "dark" ? "basic-dark" : "openstreetmap",
       apiKey: "fESlmIgSt0hGC1Qv7ZLO",
     });
     tileLayer.addTo(map);
 
     return () => map.removeLayer(tileLayer);
-  }, [map]);
+  }, [map, theme]);
 
   return null;
 }

@@ -1,26 +1,26 @@
-import DailyForecast from "./components/cards/DailyForecasst";
-import HourlyForecast from "./components/cards/HourlyForecast";
-import CurrentWeather from "./components/cards/CurrentWeather";
-import AdditionalInfo from "./components/cards/AdditionalInfo";
-import Map from "./components/Map";
+import DailyForecast from "../components/weather/DailyForecasst";
+import HourlyForecast from "../components/weather/HourlyForecast";
+import CurrentWeather from "../components/weather/CurrentWeather";
+import AdditionalInfo from "../components/weather/AdditionalInfo";
+import Map from "../components/map/Map";
 import { useState } from "react";
-import type { Coords } from "./types";
-import LocationDropdown from "./components/dropdowns/LocationDropdown";
+import type { Coords } from "../types";
+import LocationDropdown from "../components/dropdowns/LocationDropdown";
 import { useQuery } from "@tanstack/react-query";
-import { getGeocode } from "./api";
-import MapTypeDropdown from "./components/dropdowns/mapTypeDropdown";
-import MapLegend from "./components/MapLegends";
-import CurrentSkeleton from "./components/skeletons/CurrentSkeleton";
+import { getGeocode } from "../services/api";
+import MapTypeDropdown from "../components/dropdowns/mapTypeDropdown";
+import MapLegend from "../components/map/MapLegends";
+import CurrentSkeleton from "../components/weather/CurrentSkeleton";
 import { Suspense } from "react";
-import DailySkeleton from "./components/skeletons/DailySkeleton";
-import HourlySkeleton from "./components/skeletons/HourlySkeleton";
-import AdditionalInfoSkeleton from "./components/skeletons/AdditionalInfoSkeleton";
-import SidePanel from "./components/SidePanel";
+import DailySkeleton from "../components/weather/DailySkeleton";
+import HourlySkeleton from "../components/weather/HourlySkeleton";
+import AdditionalInfoSkeleton from "../components/weather/AdditionalInfoSkeleton";
+import SidePanel from "../components/layout/SidePanel";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import MobileHeader from "./components/MobileHeader";
-import Menu from "../src/assets/menu.svg?react";
-import ThemeToggle from "./components/ThemeToggle";
-import TemperatureToggle from "./components/TemperatureToggle";
+import MobileHeader from "../components/layout/MobileHeader";
+import Menu from "../assets/menu.svg?react";
+import ThemeToggle from "../components/common/ThemeToggle";
+import TemperatureToggle from "../components/common/TemperatureToggle";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({
@@ -28,7 +28,7 @@ function App() {
     lon: 2,
   });
 
-  const [location, setLocation] = useState("Tokyo");
+  const [location, setLocation] = useState("Delhi");
   const [mapType, setMapType] = useState("clouds_new");
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
@@ -84,7 +84,7 @@ function App() {
           </div>
           <div className="col-span-1 2xl:row-span-2 order-2">
             <Suspense fallback={<CurrentSkeleton />}>
-              <CurrentWeather coords={coords} location={location} />
+              <CurrentWeather coords={coords} />
             </Suspense>
           </div>
           <div className="col-span-1 order-3 2xl:order-4 2xl:row-span-2">

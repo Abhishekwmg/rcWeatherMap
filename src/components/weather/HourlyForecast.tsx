@@ -1,10 +1,10 @@
 import Card from "./Cards";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getWeahter } from "../../api";
-import WeatherIcon from "../WeatherIcon";
+import { getWeahter } from "../../services/api";
+import WeatherIcon from "../common/WeatherIcon";
 import type { Coords } from "../../types";
-import { useTemperatureUnit } from "../TemperatureUnitContext";
-import { formatTemp } from "../temperature";
+import { useTemperatureUnit } from "../../context/TemperatureUnitContext";
+import { formatTemp } from "../../utils/temperature";
 
 type Props = {
   coords: Coords;

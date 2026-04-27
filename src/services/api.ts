@@ -1,7 +1,7 @@
-import { ReverseGeocodeSchema } from "./schemas/reverseGeocodeSchema";
-import { WeatherSchema } from "./schemas/weatherSchema";
-import { GeocodeSchema } from "./schemas/geocodeSchema";
-import { AirPollution } from "./schemas/airPollutionSchema";
+import { ReverseGeocodeSchema } from "../schemas/reverseGeocodeSchema";
+import { WeatherSchema } from "../schemas/weatherSchema";
+import { GeocodeSchema } from "../schemas/geocodeSchema";
+import { AirPollution } from "../schemas/airPollutionSchema";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export async function getWeahter({ lat, lon }: { lat: number; lon: number }) {
