@@ -1,73 +1,244 @@
-# React + TypeScript + Vite
+# rc-weather-map
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A production-grade geospatial weather visualization system built for performance, scalability, and real-world frontend architecture patterns.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Overview
 
-## React Compiler
+**rc-weather-map** is not just a UI project — it is a **data-driven geospatial application** that demonstrates how to architect a modern frontend system capable of handling:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- asynchronous data streams
+- map-based rendering constraints
+- API orchestration
+- strict type safety
+- scalable UI systems
 
-## Expanding the ESLint configuration
+The goal is to simulate the kind of frontend system you would encounter in a high-performance engineering environment — where correctness, performance, and maintainability matter as much as visuals.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Problem Space
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Weather + maps seems simple until you deal with:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- inconsistent API responses
+- high-frequency data updates
+- rendering performance on map layers
+- state synchronization across UI + network
+- UI responsiveness under load
+
+This project addresses those concerns with a **deliberate architectural approach**, not just libraries glued together.
+
+---
+
+## System Design Philosophy
+
+### 1. Server State ≠ Client State
+
+All async data is treated as **server state**, managed via:
+
+- cache lifecycles
+- background refetching
+- stale-while-revalidate strategy
+
+This avoids:
+
+- redundant requests
+- UI flickering
+- inconsistent data snapshots
+
+---
+
+### 2. Feature-Driven Architecture
+
+Instead of dumping everything into `/components`, the codebase is structured around **domain boundaries**:
+
+```
+features/
+  weather/
+  map/
+  location/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Each feature owns:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- UI
+- hooks
+- API logic
+- validation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+This mirrors how large-scale systems are organized internally.
+
+---
+
+### 3. Type Safety as a First-Class Constraint
+
+Using strict TypeScript + runtime validation:
+
+- No blind trust in APIs
+- Zod schemas enforce runtime guarantees
+- Types flow from API → UI without leakage
+
+This reduces:
+
+- silent failures
+- undefined states
+- debugging overhead
+
+---
+
+### 4. UI as a System (Not Just Components)
+
+The UI layer is built with:
+
+- composable primitives (Radix)
+- design tokens (Tailwind)
+- utility merging (`clsx`, `tailwind-merge`)
+- variant systems (CVA)
+
+This enables:
+
+- predictable styling
+- scalable component APIs
+- minimal duplication
+
+---
+
+### 5. Rendering Strategy for Maps
+
+Maps are a performance trap if handled poorly.
+
+This project ensures:
+
+- minimal re-renders of map layers
+- separation between map instance and React tree
+- controlled updates for markers & overlays
+
+---
+
+## Tech Stack (with Intent)
+
+### Core Runtime
+
+- React 19 (RC) → concurrent rendering primitives
+- TypeScript → enforce correctness at scale
+- Vite → fast iteration, optimized builds
+
+### Data Layer
+
+- TanStack React Query → async orchestration, caching, retries
+- Zod → runtime validation boundary
+
+### Geospatial Layer
+
+- Leaflet + React Leaflet → map abstraction
+- MapTiler SDK → tile rendering + styling
+
+### UI System
+
+- TailwindCSS v4 → utility-first styling
+- shadcn + Radix → accessible primitives
+- Lucide → icon system
+
+---
+
+## Data Flow (Simplified)
+
 ```
+User Interaction
+      ↓
+React Component
+      ↓
+Custom Hook
+      ↓
+React Query
+      ↓
+API Layer
+      ↓
+Zod Validation
+      ↓
+Cached State
+      ↓
+UI Render
+```
+
+Key property: **No unvalidated data reaches the UI**
+
+---
+
+## Performance Characteristics
+
+- Query-level caching avoids redundant API calls
+- Background refetch keeps UI fresh without blocking
+- Component boundaries prevent unnecessary renders
+- Map rendering is isolated from React reconciliation
+
+---
+
+## Local Development
+
+```bash
+git clone https://github.com/your-username/rc-weather-map.git
+cd rc-weather-map
+npm install
+npm run dev
+```
+
+---
+
+## Environment Variables
+
+```
+VITE_MAPTILER_API_KEY=
+VITE_WEATHER_API_KEY=
+```
+
+---
+
+## What This Project Demonstrates
+
+This project is intentionally built to reflect:
+
+- how frontend systems scale beyond toy apps
+- how to structure code for teams, not individuals
+- how to enforce correctness in unreliable environments
+- how to balance DX with production constraints
+
+---
+
+## Tradeoffs & Decisions
+
+No system is perfect — here are conscious tradeoffs:
+
+- React 19 RC → bleeding edge, not fully stable
+- Client-heavy architecture → faster UX, heavier bundle
+- Leaflet → simpler than WebGL-based solutions, less powerful
+
+---
+
+## Future Improvements
+
+- WebGL-based rendering for large datasets
+- Offline caching strategy
+- Error boundary instrumentation
+- Observability hooks (logging, tracing)
+- Server-side rendering / edge deployment
+
+---
+
+## Why This Exists
+
+Most frontend projects online optimize for:
+
+> “Looks good on a portfolio”
+
+This one optimizes for:
+
+> “Would survive in production”
+
+---
+
+## License
+
+MIT
