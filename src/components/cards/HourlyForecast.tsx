@@ -3,6 +3,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getWeahter } from "../../api";
 import WeatherIcon from "../WeatherIcon";
 import type { Coords } from "../../types";
+import { useTemperatureUnit } from "../TemperatureUnitContext";
+import { formatTemp } from "../temperature";
 
 type Props = {
   coords: Coords;
@@ -14,6 +16,8 @@ export default function HourlyForecast({ coords }: Props) {
     queryFn: () => getWeahter({ lat: coords.lat, lon: coords.lon }),
   });
 
+  const { unit } = useTemperatureUnit();
+
   return (
     <Card
       title="Hourly Forecast (48 Hrs)"
@@ -24,12 +28,12 @@ export default function HourlyForecast({ coords }: Props) {
           <p className="whitespace-nowrap">
             {new Date(hour.dt * 1000).toLocaleTimeString(undefined, {
               hour: "numeric",
-              minute: "2-digit",
               hour12: true,
+              timeZone: data.timezone,
             })}
           </p>
           <WeatherIcon src={hour.weather[0].icon} />
-          <p>{Math.round(hour.temp)}°F</p>
+          <p>{formatTemp(Math.round(hour.temp), unit)}</p>
         </div>
       ))}
     </Card>

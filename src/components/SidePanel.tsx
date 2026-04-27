@@ -126,8 +126,14 @@ function AirPollution({ coords }) {
               </div>
               <span className="text-lg font-semibold">{value}</span>
             </div>
-            <Slider min={0} max={max} value={[value]} disabled />
-            <div className="gap-4 flex justify-between text-xs">
+            <Slider
+              min={0}
+              max={max}
+              value={[value]}
+              disabled
+              className="mt-1"
+            />
+            <div className="gap-4 my-2 flex justify-between text-xs">
               <p>0</p>
               <p>{max}</p>
             </div>
@@ -136,7 +142,7 @@ function AirPollution({ coords }) {
                 <span
                   key={quality}
                   className={clsx(
-                    "px-2 py-1 rounded-md text-xs font-medium",
+                    "px-2 my-2 py-1 rounded-md text-xs font-medium",
                     quality === currentLevel
                       ? qualityColor
                       : "bg-muted text-muted-foreground",

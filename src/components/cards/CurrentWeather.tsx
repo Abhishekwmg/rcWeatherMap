@@ -3,6 +3,9 @@ import { getWeahter } from "../../api";
 import Card from "./Cards";
 import WeatherIcon from "../WeatherIcon";
 import type { Coords } from "../../types";
+import { getReverseGeocode } from "../../api";
+import { useTemperatureUnit } from "../TemperatureUnitContext";
+import { formatTemp } from "../temperature";
 
 type Props = {
   coords: Coords;
@@ -14,15 +17,22 @@ export default function CurrentWeather({ coords }: Props) {
     queryFn: () => getWeahter({ lat: coords.lat, lon: coords.lon }),
   });
 
+  const { data: city } = useSuspenseQuery({
+    queryKey: ["reversecode", coords],
+    queryFn: () => getReverseGeocode({ lat: coords.lat, lon: coords.lon }),
+  });
+
+  const { unit } = useTemperatureUnit();
+
   return (
     <Card
       title="Current Weather"
-      className="md:pb-18"
+      className="md:pb-15"
       childrenClassName="flex flex-col items-center gap-4"
     >
       <div className="flex flex-col gap-2 items-center">
         <h2 className="text-6xl font-semibold text-center">
-          {Math.round(data.current.temp)}°F
+          {formatTemp(Math.round(data.current.temp), unit)}
         </h2>
         <WeatherIcon src={data.current.weather[0].icon} className="size-14" />
         <h3 className="capitalize text-xl">
@@ -30,8 +40,16 @@ export default function CurrentWeather({ coords }: Props) {
         </h3>
       </div>
       <div className="flex flex-col gap2">
-        <p className="text-xl text-center">Local Time</p>
-        <h3 className="text-4xl font-semibold">
+        <p className="text-xl text-center">
+          {city?.[0] ? (
+            <p className="text-xl text-center">
+              {city[0].name}, {city[0].state ?? city[0].country}
+            </p>
+          ) : (
+            <p className="text-xl text-center text-gray-400">Open Ocean</p>
+          )}
+        </p>
+        <h3 className="text-4xl font-semibold text-center mt-2">
           {new Intl.DateTimeFormat("en-US", {
             hour: "2-digit",
             minute: "2-digit",

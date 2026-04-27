@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "./components/ThemeProvider.tsx";
+import TemperatureUnitProvider from "./components/TemperatureUnitContext.tsx";
 
 const queryClient = new QueryClient();
 
@@ -11,7 +12,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <App />
+        <TemperatureUnitProvider>
+          <App />
+        </TemperatureUnitProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>,

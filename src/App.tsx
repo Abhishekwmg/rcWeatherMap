@@ -20,6 +20,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import MobileHeader from "./components/MobileHeader";
 import Menu from "../src/assets/menu.svg?react";
 import ThemeToggle from "./components/ThemeToggle";
+import TemperatureToggle from "./components/TemperatureToggle";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({
@@ -63,6 +64,9 @@ function App() {
           </div>
           <div className="ml-auto flex gap-4 items-center">
             <div className="hidden xs:block">
+              <TemperatureToggle />
+            </div>
+            <div className="hidden xs:block">
               <ThemeToggle />
             </div>
             <button
@@ -80,7 +84,7 @@ function App() {
           </div>
           <div className="col-span-1 2xl:row-span-2 order-2">
             <Suspense fallback={<CurrentSkeleton />}>
-              <CurrentWeather coords={coords} />
+              <CurrentWeather coords={coords} location={location} />
             </Suspense>
           </div>
           <div className="col-span-1 order-3 2xl:order-4 2xl:row-span-2">

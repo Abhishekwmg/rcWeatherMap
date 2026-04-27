@@ -1,3 +1,4 @@
+import { ReverseGeocodeSchema } from "./schemas/reverseGeocodeSchema";
 import { WeatherSchema } from "./schemas/weatherSchema";
 import { GeocodeSchema } from "./schemas/geocodeSchema";
 import { AirPollution } from "./schemas/airPollutionSchema";
@@ -17,6 +18,20 @@ export async function getGeocode(location: string) {
   );
   const data = await res.json();
   return GeocodeSchema.parse(data);
+}
+
+export async function getReverseGeocode({
+  lat,
+  lon,
+}: {
+  lat: number;
+  lon: number;
+}) {
+  const res = await fetch(
+    `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`,
+  );
+  const data = await res.json();
+  return ReverseGeocodeSchema.parse(data);
 }
 
 export async function getAirPollution({
