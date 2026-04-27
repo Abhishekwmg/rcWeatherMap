@@ -13,7 +13,6 @@ export default function AdditionalInfoSkeleton() {
             {/* <span className="text-gray-500">{label}</span> */}
             <Skeleton className="w-20 h-8" />
             <Skeleton className="size-8 rounded-full" />
-            {/* <Icon className="size-8 invert-50" /> */}
           </div>
           <span>
             <Skeleton className="size-8" />

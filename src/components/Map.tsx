@@ -19,7 +19,7 @@ export default function Map({ coords, onMapClick, mapType }: Props) {
     <MapContainer
       center={[lat, lon]}
       zoom={5}
-      maxZoom={12}
+      maxZoom={15}
       minZoom={3}
       style={{ width: "100%", height: "100%" }}
     >

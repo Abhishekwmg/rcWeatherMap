@@ -17,7 +17,9 @@ import HourlySkeleton from "./components/skeletons/HourlySkeleton";
 import AdditionalInfoSkeleton from "./components/skeletons/AdditionalInfoSkeleton";
 import SidePanel from "./components/SidePanel";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import MobileHeader from "./components/MobileHeader";
 import Menu from "../src/assets/menu.svg?react";
+import ThemeToggle from "./components/ThemeToggle";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({
@@ -27,7 +29,6 @@ function App() {
 
   const [location, setLocation] = useState("Tokyo");
   const [mapType, setMapType] = useState("clouds_new");
-
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
   const { data: geocodeData } = useQuery({
@@ -47,21 +48,30 @@ function App() {
 
   return (
     <TooltipProvider>
-      <div className="flex flex-col gap-8 p-8 w-full lg:w-[calc(100dvw-var(--sidebar-width))] 2xl:h-screen">
-        <div className="flex flex-col xs:flex-row xs:gap-8">
+      <MobileHeader setIsSidePanelOpen={setIsSidePanelOpen} />
+      <div className="flex flex-col gap-8 pt-4 p-8 xs:p-8 w-full lg:w-[calc(100dvw-var(--sidebar-width))] 2xl:h-screen">
+        <div className="flex flex-col gap-4 xs:flex-row xs:gap-8">
           <div className="flex flex-col md:flex-row gap-2 md:gap-4">
             <h1 className="text-2xl font-semibold">Location:</h1>
             <LocationDropdown location={location} setLocation={setLocation} />
           </div>
           <div className="flex flex-col md:flex-row gap-2 md:gap-4">
             <h1 className="text-2xl whitespace-nowrap font-semibold">
-              Map Type
+              Map Type:
             </h1>
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
-          <button className="" onClick={() => setIsSidePanelOpen(true)}>
-            <Menu className="size-6 invert ml-auto lg:hidden" />
-          </button>
+          <div className="ml-auto flex gap-4 items-center">
+            <div className="hidden xs:block">
+              <ThemeToggle />
+            </div>
+            <button
+              className="hidden xs:block"
+              onClick={() => setIsSidePanelOpen(true)}
+            >
+              <Menu className="size-6 ml-auto lg:hidden" />
+            </button>
+          </div>
         </div>
         <div className="grid grid-cols-1 2xl:flex-1 2xl:min-h-0 gap-4 md:grid-cols-2 2xl:grid-cols-4 2xl:grid-rows-4">
           <div className="relative h-120 2xl:h-auto col-span-1 md:col-span-2 2xl:col-span-4 2xl:row-span-2 order-1">
