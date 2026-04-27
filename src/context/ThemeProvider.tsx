@@ -20,10 +20,22 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export default function ThemeProvider({ children }: Props) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  // const [theme, setTheme] = useState<Theme>("dark");
+
+  const [theme, setTheme] = useState<Theme>(() => {
+    return (localStorage.getItem("theme") as Theme) ?? "dark";
+  });
+
+  // const toggleTheme = () => {
+  //   setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  // };
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", next);
+      return next;
+    });
   };
 
   useEffect(() => {

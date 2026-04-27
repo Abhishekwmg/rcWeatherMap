@@ -9,7 +9,7 @@ export default function MapLegend({ mapType }: Props) {
     .map((stop) => `${stop.color} ${(stop.value / maxValue) * 100}%`)
     .join(", ");
   return (
-    <div className="absolute top-4 right-4 z-1000 w-48 xs:w-96 rounded-xl shadow p-4 bg-background/50 border border-accent/70 flex flex-col gap-4">
+    <div className="absolute top-4 right-4 z-1000 w-36 xs:w-96 rounded-xl shadow p-2 bg-background/50 border border-accent/70 flex flex-col gap-4">
       <h3 className="text-sm fpnt-semibold text-foreground">{data.title}</h3>
       <div
         className="w-full h-6 rounded-xl border border-accent/70 "
@@ -100,7 +100,7 @@ export const mapTypeData: MapTypeData = {
       { value: 10, color: "rgba(194, 255, 40, 1)" },
       { value: 20, color: "rgba(255, 240, 40, 1)" },
       { value: 25, color: "rgba(255, 194, 40, 1)" },
-      { value: 30, color: "rgba(252, 128, 20, 1)" },
+      { value: 50, color: "rgba(252, 128, 20, 1)" },
     ],
   },
 
